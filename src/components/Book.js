@@ -43,10 +43,7 @@ class Book extends React.Component {
     })
     .catch(error => {
       console.error(error);
-    })  
-    console.error("at the end of componentDidMount, the state is:",this.state);
-    console.error('and localStorage is:',localStorage.getItem('wishlist'));
-
+    })
   }
 
   addToWishlist() {

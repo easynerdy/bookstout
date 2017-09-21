@@ -23,15 +23,12 @@ class Wishlist extends React.Component {
   removeWish(id) {
     console.log("id: ",id);
     console.log("state at the top of removeWish is:",this.state);
-    let newWishes = this.state.wishlist.filter(book => {
-      console.log("the object's id is: ",book.id," and the id is ",id)
+    let lessWishes = this.state.wishlist.filter(book => {
       return book.id !== id
     });
-    console.log("afterwards",newWishes)
-    // this.setState({wishlist: newWishes})
-    // // Update the cookie
-    // const cookies = new Cookies();    
-    // cookies.set('wishlist', this.state.wishlist, { path: '/' });
+    this.setState({wishlist: lessWishes})
+    // Update localStorage
+    localStorage.setItem('wishlist', JSON.stringify(lessWishes));
   }
 
   render() {
@@ -42,7 +39,7 @@ class Wishlist extends React.Component {
         {this.state.wishlist.map(book=>{
           return <li key={book.id}>
             <img src={book.cover_url} width="100" />
-            <div>{book.title} {book.isbn}  <button onClick={this.removeWish}>X</button></div>
+            <div>{book.title} {book.isbn}  <button onClick={() => {this.removeWish(book.id)}}>X</button></div>
           </li>
         })}
       </div>
