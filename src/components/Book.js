@@ -39,7 +39,7 @@ class Book extends React.Component {
     return (
     <div>
       <h2>{this.state.title}</h2>
-      <img src={this.state.cover_url} width="100" />
+      <img src={this.state.cover_url} width="100" alt={this.state.title}/>
       <div className="synopsis">{this.state.synopsis}</div>
       <div className="isbn">ISBN {this.state.isbn} </div><div className="price">{this.state.price}</div>
     </div>

@@ -1,63 +1,49 @@
 import React from "react";
 import { Link } from "react-router";
-
-const searchResults = [
-  {
-    id: 4,
-    title: "Bees",
-    price: "$3.40",
-    synopsis: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum"
-  },
-  {
-    id: 5,
-    title: "Cats",
-    price: "$3.50",
-    synopsis: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum"
-  },
-  {
-    id: 6,
-    title: "Dogs",
-    price: "$3.60",
-    synopsis: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum"
-  }
-]
+import axios from "axios";
 
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
+      searchInput: "",
       books: []
     }
+    this.onChange = this.onChange.bind(this);
+    this.submitSearch = this.submitSearch.bind(this);
   }
 
-  componentDidMount() {
-
+  onChange(e) {
+    e.preventDefault();
+    this.setState({searchInput: e.target.value});
   }
 
   submitSearch(e) {
     e.preventDefault();
-    console.log("We made it in submitSearch!");
+    console.error(e);
+    axios.get("https://bookshout.com/api/books/search.json?query=" + this.state.searchInput)
+    .then(response => {
+      this.setState({books: response.data});
+      console.error(this.state.books)
+    })
+    .catch(error => {
+      console.error(error);
+    })
   }
 
   render() {
-    const component = this;
     return (
     <div>
-      <input type="text"/>
-      <button onClick={component.submitSearch}>Search</button>
-      {this.state.books.length >= 0
-      ? <div>Search for a book!</div>
-      : <div> 
-          <h2>Search Results</h2>
-          <ul>
-            {this.state.books.map(book=>{
-              return <li key={book.id}>
-                <div><Link to={"/details/" + book.id}>{book.title}</Link> {book.price}</div>
-                <div>{book.synopsis}</div>
-              </li>
-            })}
-          </ul>
-        </div>}
+      <input id="searchInput" type="text" value={this.state.searchInput} onChange={this.onChange}/>
+      <button onClick={this.submitSearch}>Search</button>
+      <ul>
+        {this.state.books.map(book=>{
+          return <li key={book.id}>
+            <div><Link to={"/details/" + book.id}>{book.title}</Link> {book.current_price}</div>
+            <div>{book.synopsis.length > 100 ? book.synopsis.substring(0,99)+"..." : book.synopsis}</div>
+          </li>
+        })}
+      </ul>
     </div>
     )}
 }
