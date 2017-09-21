@@ -41,7 +41,7 @@ class Home extends React.Component {
         {this.state.books.map(book=>{
           return <li key={book.id}>
             <div><Link to={"/details/" + book.id}>{book.title}</Link> {book.current_price}</div>
-            <div>{book.synopsis.length > 100 ? book.synopsis.substring(0,99)+"..." : book.synopsis}</div>
+            <div>{book.synopsis && book.synopsis.length > 100 ? book.synopsis.substring(0,99)+"..." : book.synopsis}</div>
           </li>
         })}
       </ul>

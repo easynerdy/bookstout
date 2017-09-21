@@ -8,8 +8,7 @@ class Wishlist extends React.Component {
     super();
     
     this.state = {
-      wishlistIds: [],
-      wishlistData: []
+      wishlist: [],
     }
     this.removeWish = this.removeWish.bind(this);
   }  
@@ -18,27 +17,34 @@ class Wishlist extends React.Component {
 
     const cookies = new Cookies();
     // cookies.setMaxAge(30*60);
-    cookies.set('wishlistIds', this.state.wishlistIds, { path: '/' });
-    console.log(cookies.get('wishlistIds')); // Pacman
+    console.log(cookies.get('wishlist')); 
+    const newWishlist = cookies.get('wishlist') || [];
+    this.setState({
+      wishlist : newWishlist
+    });
+
+
 
     // For every Id in the Wishlist:
     // load in the data for that id, then add it to the state.
-    let newWishlistData =[];
-    this.state.wishlistIds.forEach(id => {
-      axios.get('https://bookshout.com/api/books/' + id + '.json')
-      .then(response => {
-        newWishlistData = this.state.wishlistData.concat({
-          id: response.data.id,
-          title: response.data.title,
-          isbn: response.data.isbn,
-          cover_url: response.data.cover_url
-        });
-        this.setState({ wishlistData: newWishlistData })
-      })
-      .catch(error => {
-        console.error(error);
-      })
-    })
+    // let newWishlistData =[];
+    // this.state.wishlistIds.forEach(id => {
+    //   axios.get('https://bookshout.com/api/books/' + id + '.json')
+    //   .then(response => {
+    //     newWishlistData = this.state.wishlistData.concat({
+    //       id: response.data.id,
+    //       title: response.data.title,
+    //       isbn: response.data.isbn,
+    //       cover_url: response.data.cover_url
+    //     });
+    //     this.setState({ wishlistData: newWishlistData })
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   })
+    // })
+
+
   }
 
   removeWish(id) {
@@ -57,7 +63,7 @@ class Wishlist extends React.Component {
     return (
       <div>
         <h2>Wishlist</h2>
-        {this.state.wishlistData.map(book=>{
+        {this.state.wishlist.map(book=>{
           return <li key={book.id}>
             <img src={book.cover_url} width="100" alt="Book Image"/>
             <div>{book.title} {book.isbn}  <button onClick={this.removeWish(book.id)}>X</button></div>
