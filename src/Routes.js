@@ -18,8 +18,10 @@ class Routes extends React.Component {
       <Router history={browserHistory}>
         <Route path="/" component={Nav}>
           <IndexRoute component={Home} />
-          <Route path="details" component={Book} />
           <Route path="wishlist" component={Wishlist} />
+          <Route path="details/:id">
+              <IndexRoute component={Book} />
+          </Route>
         </Route>
       </Router>
     );
