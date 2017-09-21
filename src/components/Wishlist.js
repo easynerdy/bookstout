@@ -15,8 +15,8 @@ class Wishlist extends React.Component {
   
   componentDidMount() {
     let newWishlistData =[];
-    // For every Id in the Wishlist, load in the data for that id.
-    // Then concat to a copy of the existing state and setState with all the data
+    // For every Id in the Wishlist:
+    // load in the data for that id, then add it to the state.
     this.state.wishlistIds.forEach(id => {
       axios.get('https://bookshout.com/api/books/' + id + '.json')
       .then(response => {
