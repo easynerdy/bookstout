@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router";
 import axios from "axios";
 
+// Home Component contains a search bar and search results.
+
 class Home extends React.Component {
   constructor() {
     super();
@@ -24,7 +26,6 @@ class Home extends React.Component {
     axios.get("https://bookshout.com/api/books/search.json?query=" + this.state.searchInput)
     .then(response => {
       this.setState({books: response.data});
-      console.error(this.state.books)
     })
     .catch(error => {
       console.error(error);
