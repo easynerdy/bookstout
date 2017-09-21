@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const searchResults = [
   {
@@ -29,7 +30,7 @@ class Home extends React.Component {
       <ul>
         {searchResults.map(book=>{
           return <li key={book.id}>
-            <div>{book.title} {book.price}</div>
+            <div><Link to={"/details/" + book.id}>{book.title}</Link> {book.price}</div>
             <div>{book.synopsis}</div>
           </li>
         })}

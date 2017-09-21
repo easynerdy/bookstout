@@ -1,23 +1,47 @@
 import React from "react";
+import axios from "axios";
 
-const book = {
-  id: 3,
-  title: "Ah",
-  isbn: "qqq",
-  image: "",
-  price: "$3.30",
-  synopsis: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum "
-}
+// Book component grabs the book info from the BookShout API,
+// and displays its info in the render
 
 class Book extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      id: null,
+      title: "",
+      isbn: "",
+      cover_url: "",
+      price: "",
+      synopsis: ""
+    }
+  }
+
+  componentWillMount() {
+    axios.get('https://bookshout.com/api/books/' + this.props.params.id + '.json')
+    .then(response=>{
+      this.setState({
+        id: response.data.id,
+        title: response.data.title,
+        isbn: response.data.isbn,
+        cover_url: response.data.cover_url,
+        price: response.data.current_price,
+        synopsis: response.data.synopsis     
+      })
+    })
+    .catch(error => {
+      console.error(error);
+    })  
+  }
 
   render() {
+ 
     return (
     <div>
-      <h2>{book.title}</h2>
-      <div className="cover">{book.image}</div>
-      <div className="synopsis">{book.synopsis}</div>
-      <div className="isbn">ISBN {book.isbn} </div><div className="price">{book.price}</div>
+      <h2>{this.state.title}</h2>
+      <img src={this.state.cover_url} width="100" />
+      <div className="synopsis">{this.state.synopsis}</div>
+      <div className="isbn">ISBN {this.state.isbn} </div><div className="price">{this.state.price}</div>
     </div>
 
     )}
