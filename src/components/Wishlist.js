@@ -1,22 +1,29 @@
 import React from "react";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 class Wishlist extends React.Component {
+  
   constructor() {
     super();
+    
     this.state = {
-      wishlistIds: [
-        30,40,50
-      ],
+      wishlistIds: [],
       wishlistData: []
     }
     this.removeWish = this.removeWish.bind(this);
   }  
   
   componentDidMount() {
-    let newWishlistData =[];
+
+    const cookies = new Cookies();
+    // cookies.setMaxAge(30*60);
+    cookies.set('wishlistIds', this.state.wishlistIds, { path: '/' });
+    console.log(cookies.get('wishlistIds')); // Pacman
+
     // For every Id in the Wishlist:
     // load in the data for that id, then add it to the state.
+    let newWishlistData =[];
     this.state.wishlistIds.forEach(id => {
       axios.get('https://bookshout.com/api/books/' + id + '.json')
       .then(response => {
