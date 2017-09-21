@@ -20,8 +20,17 @@ const wishlist = [
 
 class Wishlist extends React.Component {
   render() {
-    return <div>Hello Wishlist</div>
-  }
+    return (
+      <div>
+        <h2>Wishlist</h2>
+        {wishlist.map(book=>{
+          return <li key={book.id}>
+            <span>{book.title}</span>
+            <div>{book.image}</div>
+          </li>
+        })}
+      </div>
+    )}
 
 
 }

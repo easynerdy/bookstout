@@ -23,8 +23,19 @@ const searchResults = [
 
 class Home extends React.Component {
   render() {
-    return <div>Hello Search</div>
-  }
+    return (
+    <div>
+      <h2>Search Results</h2>
+      <ul>
+        {searchResults.map(book=>{
+          return <li key={book.id}>
+            <div>{book.title} {book.price}</div>
+            <div>{book.synopsis}</div>
+          </li>
+        })}
+      </ul>
+    </div>
+    )}
 }
 
 export default Home;

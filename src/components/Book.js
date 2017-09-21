@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 const book = {
   id: 3,
@@ -15,7 +14,7 @@ class Book extends React.Component {
   render() {
     return (
     <div>
-      <h1>{book.title}</h1>
+      <h2>{book.title}</h2>
       <div className="cover">{book.image}</div>
       <div className="synopsis">{book.synopsis}</div>
       <div className="isbn">ISBN {book.isbn} </div><div className="price">{book.price}</div>
