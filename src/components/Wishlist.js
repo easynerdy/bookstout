@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import Cookies from 'universal-cookie';
 
 class Wishlist extends React.Component {
@@ -13,49 +12,31 @@ class Wishlist extends React.Component {
     this.removeWish = this.removeWish.bind(this);
   }  
   
-  componentDidMount() {
 
-    const cookies = new Cookies();
-    // cookies.setMaxAge(30*60);
-    console.log(cookies.get('wishlist')); 
-    const newWishlist = cookies.get('wishlist') || [];
+  componentDidMount() {
+    // Pull the wishlist from the cookie and set state
+    // const cookies = new Cookies();
+    // console.log("Cookie at the top of componentdidmount in wishlist:",cookies.get('wishlist')); 
+    let newWishlist = [];
+    newWishlist = JSON.parse(localStorage.getItem('wishlist'));
+    
+    console.error("newWishlist type from localStorage:",typeof newWishlist,"wishlist length is",newWishlist.length,"and wishlist is: ", newWishlist)
     this.setState({
       wishlist : newWishlist
     });
-
-
-
-    // For every Id in the Wishlist:
-    // load in the data for that id, then add it to the state.
-    // let newWishlistData =[];
-    // this.state.wishlistIds.forEach(id => {
-    //   axios.get('https://bookshout.com/api/books/' + id + '.json')
-    //   .then(response => {
-    //     newWishlistData = this.state.wishlistData.concat({
-    //       id: response.data.id,
-    //       title: response.data.title,
-    //       isbn: response.data.isbn,
-    //       cover_url: response.data.cover_url
-    //     });
-    //     this.setState({ wishlistData: newWishlistData })
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   })
-    // })
-
-
   }
 
   removeWish(id) {
     // console.log("id: ",id);
     // console.log("state at the top of removeWish is:",this.state);
-    // let wishes = this.state.wishlistData;
-    // wishes = wishes.filter(o => {
+    // let newWishes = this.state.wishlist.filter(o => {
     //   console.log("the object's id is: ",o.id," and the id is ",id)
     //   return o.id !== id
     // });
-    // this.setState({wishlistData: wishes})
+    // this.setState({wishlist: newWishes})
+    // // Update the cookie
+    // const cookies = new Cookies();    
+    // cookies.set('wishlist', this.state.wishlist, { path: '/' });
   }
 
   render() {
@@ -65,8 +46,8 @@ class Wishlist extends React.Component {
         <h2>Wishlist</h2>
         {this.state.wishlist.map(book=>{
           return <li key={book.id}>
-            <img src={book.cover_url} width="100" alt="Book Image"/>
-            <div>{book.title} {book.isbn}  <button onClick={this.removeWish(book.id)}>X</button></div>
+            <img src={book.cover_url} width="100" />
+            <div>{book.title} {book.isbn}  <button onClick={this.removeWish}>X</button></div>
           </li>
         })}
       </div>

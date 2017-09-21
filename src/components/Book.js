@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import Cookies from 'universal-cookie';
 
 // Book component grabs the book info from the BookShout API,
 // and displays its info in the render
@@ -11,7 +10,7 @@ class Book extends React.Component {
     this.state = {
       wishlist : [],
       book: {
-        id: null,
+        id: 0,
         title: "",
         isbn: "",
         cover_url: "",
@@ -19,10 +18,16 @@ class Book extends React.Component {
         synopsis: ""
       }
     }
+    this.addToWishlist = this.addToWishlist.bind(this);
   }
 
   componentWillMount() {
-    const cookies = new Cookies();
+    let newWishlist = localStorage.getItem('wishlist')
+    this.setState({ 
+      wishlist : newWishlist || []
+    });
+
+    // Grab the book from the api
     axios.get('https://bookshout.com/api/books/' + this.props.params.id + '.json')
     .then(response=>{
       this.setState({
@@ -35,30 +40,26 @@ class Book extends React.Component {
           synopsis: response.data.synopsis     
         }
       })
-      this.setState({ 
-        wishlistIds : cookies.get('wishlistIds')
-      });
     })
     .catch(error => {
       console.error(error);
     })  
+    console.error("at the end of componentDidMount, the state is:",this.state);
+    console.error('and localStorage is:',localStorage.getItem('wishlist'));
+
   }
 
   addToWishlist() {
-    const cookies = new Cookies();    
-    let newWishlist = this.state.wishlist.push(this.state.book);
-    this.setState({wishlist : newWishlist});
-    cookies.set('wishlist', this.state.wishlist, { path: '/' });
-    
-    console.log("made it")
+    let newWishlist = this.state.wishlist.concat(this.state.book);
+    localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+    alert('You added a new book to your Wishlist!');
   }
 
   render() {
-    console.error("in render, state:",this.state.wishlist)
     return (
     <div>
       <h2>{this.state.title}</h2>
-      <button onClick={this.addToWishlist.bind(this)}>*</button>
+      <button onClick={this.addToWishlist}>*</button>
       <img src={this.state.book.cover_url} width="100" alt={this.state.book.title}/>
       <div className="synopsis">{this.state.book.synopsis}</div>
       <div className="isbn">ISBN {this.state.book.isbn} </div><div className="price">{this.state.book.price}</div>
