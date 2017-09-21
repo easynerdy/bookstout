@@ -22,7 +22,7 @@ class Book extends React.Component {
   }
 
   componentWillMount() {
-    let newWishlist = localStorage.getItem('wishlist')
+    let newWishlist = JSON.parse(localStorage.getItem('wishlist'));
     this.setState({ 
       wishlist : newWishlist || []
     });
@@ -50,7 +50,8 @@ class Book extends React.Component {
   }
 
   addToWishlist() {
-    let newWishlist = this.state.wishlist.concat(this.state.book);
+    let newWishlist = this.state.wishlist;
+    newWishlist = newWishlist.concat(this.state.book);
     localStorage.setItem('wishlist', JSON.stringify(newWishlist));
     alert('You added a new book to your Wishlist!');
   }

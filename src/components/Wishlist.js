@@ -5,7 +5,6 @@ class Wishlist extends React.Component {
   
   constructor() {
     super();
-    
     this.state = {
       wishlist: [],
     }
@@ -13,26 +12,22 @@ class Wishlist extends React.Component {
   }  
   
 
-  componentDidMount() {
-    // Pull the wishlist from the cookie and set state
-    // const cookies = new Cookies();
-    // console.log("Cookie at the top of componentdidmount in wishlist:",cookies.get('wishlist')); 
+  componentDidMount() { 
     let newWishlist = [];
     newWishlist = JSON.parse(localStorage.getItem('wishlist'));
-    
-    console.error("newWishlist type from localStorage:",typeof newWishlist,"wishlist length is",newWishlist.length,"and wishlist is: ", newWishlist)
     this.setState({
-      wishlist : newWishlist
+      wishlist : newWishlist || []
     });
   }
 
   removeWish(id) {
-    // console.log("id: ",id);
-    // console.log("state at the top of removeWish is:",this.state);
-    // let newWishes = this.state.wishlist.filter(o => {
-    //   console.log("the object's id is: ",o.id," and the id is ",id)
-    //   return o.id !== id
-    // });
+    console.log("id: ",id);
+    console.log("state at the top of removeWish is:",this.state);
+    let newWishes = this.state.wishlist.filter(book => {
+      console.log("the object's id is: ",book.id," and the id is ",id)
+      return book.id !== id
+    });
+    console.log("afterwards",newWishes)
     // this.setState({wishlist: newWishes})
     // // Update the cookie
     // const cookies = new Cookies();    
