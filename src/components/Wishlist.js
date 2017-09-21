@@ -6,14 +6,17 @@ class Wishlist extends React.Component {
     super();
     this.state = {
       wishlistIds: [
-        10,20,30,40
+        30,40,50
       ],
       wishlistData: []
     }
+    this.removeWish = this.removeWish.bind(this);
   }  
   
   componentDidMount() {
     let newWishlistData =[];
+    // For every Id in the Wishlist, load in the data for that id.
+    // Then concat to a copy of the existing state and setState with all the data
     this.state.wishlistIds.forEach(id => {
       axios.get('https://bookshout.com/api/books/' + id + '.json')
       .then(response => {
@@ -31,15 +34,26 @@ class Wishlist extends React.Component {
     })
   }
 
+  removeWish(id) {
+    // console.log("id: ",id);
+    // console.log("state at the top of removeWish is:",this.state);
+    // let wishes = this.state.wishlistData;
+    // wishes = wishes.filter(o => {
+    //   console.log("the object's id is: ",o.id," and the id is ",id)
+    //   return o.id !== id
+    // });
+    // this.setState({wishlistData: wishes})
+  }
+
   render() {
+    console.log(this.state);
     return (
       <div>
         <h2>Wishlist</h2>
-        {console.log("the state is: ",this.state.wishlistData)}
         {this.state.wishlistData.map(book=>{
           return <li key={book.id}>
-            <div>{book.title}</div>
             <img src={book.cover_url} width="100" alt="Book Image"/>
+            <div>{book.title} {book.isbn}  <button onClick={this.removeWish(book.id)}>X</button></div>
           </li>
         })}
       </div>
