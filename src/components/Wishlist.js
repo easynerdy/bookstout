@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router";
 
+// The Wishlist pulls from localStorage
+// Then displays the books in a list with a remove button
+
 class Wishlist extends React.Component {
   
   constructor() {
@@ -11,7 +14,6 @@ class Wishlist extends React.Component {
     this.removeWish = this.removeWish.bind(this);
   }  
   
-
   componentDidMount() { 
     let newWishlist = [];
     newWishlist = JSON.parse(localStorage.getItem('wishlist'));
@@ -30,7 +32,6 @@ class Wishlist extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <h2>Wishlist</h2>

@@ -57,8 +57,7 @@ class Book extends React.Component {
   // Add the book obj to state, then add to localStorage
 
   addWish() {
-    let newWishlist = this.state.wishlist;
-    newWishlist = newWishlist.concat(this.state.book);
+    let newWishlist = this.state.wishlist.concat(this.state.book);
     localStorage.setItem('wishlist', JSON.stringify(newWishlist));
     this.setState({
       listed: true
