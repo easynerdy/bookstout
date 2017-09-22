@@ -1,5 +1,6 @@
 import React from "react";
 import Cookies from 'universal-cookie';
+import { Link } from "react-router";
 
 class Wishlist extends React.Component {
   
@@ -38,7 +39,7 @@ class Wishlist extends React.Component {
         <h2>Wishlist</h2>
         {this.state.wishlist.map(book=>{
           return <li key={book.id}>
-            <img src={book.cover_url} width="100" />
+            <Link to={"/details/" + book.id}><img src={book.cover_url} width="100" /></Link>
             <div>{book.title} {book.isbn}  <button onClick={() => {this.removeWish(book.id)}}>X</button></div>
           </li>
         })}
