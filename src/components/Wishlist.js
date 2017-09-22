@@ -1,5 +1,4 @@
 import React from "react";
-import Cookies from 'universal-cookie';
 import { Link } from "react-router";
 
 class Wishlist extends React.Component {
@@ -22,8 +21,6 @@ class Wishlist extends React.Component {
   }
 
   removeWish(id) {
-    console.log("id: ",id);
-    console.log("state at the top of removeWish is:",this.state);
     let lessWishes = this.state.wishlist.filter(book => {
       return book.id !== id
     });

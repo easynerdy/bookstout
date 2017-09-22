@@ -17,9 +17,11 @@ class Book extends React.Component {
         cover_url: "",
         price: "",
         synopsis: ""
-      }
+      },
+      listed: false
     }
-    this.addToWishlist = this.addToWishlist.bind(this);
+    this.addWish = this.addWish.bind(this);
+    this.removeWish = this.removeWish.bind(this);    
   }
 
   componentWillMount() {
@@ -40,24 +42,51 @@ class Book extends React.Component {
           synopsis: response.data.synopsis     
         }
       })
+      // Set listed to true if the book is found in the wishlist
+      this.setState({
+        listed: this.state.wishlist.some(book =>{
+                  return book.id === this.state.book.id
+                })
+      })
     })
     .catch(error => {
       console.error(error);
     })
   }
 
-  addToWishlist() {
+  // Add the book obj to state, then add to localStorage
+
+  addWish() {
     let newWishlist = this.state.wishlist;
     newWishlist = newWishlist.concat(this.state.book);
     localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+    this.setState({
+      listed: true
+    })
     alert('You added a new book to your Wishlist!');
+  }
+
+  // Search the wishlist for the book and remove with filter,
+  // then update state and localStorage
+
+  removeWish() {
+    let lessWishes = this.state.wishlist.filter(book => {
+      return book.id !== this.state.id
+    });
+    this.setState({
+      wishlist: lessWishes,
+      listed: false 
+    })
+    localStorage.setItem('wishlist', JSON.stringify(lessWishes));
   }
 
   render() {
     return (
     <div>
       <button onClick={browserHistory.goBack}>Back</button>
-      <button onClick={this.addToWishlist}>Add to Wishlist</button>
+      <button onClick={this.state.listed ? this.removeWish : this.addWish}>
+        {this.state.listed ? "Remove from Wishlist" : "Add to Wishlist"}
+      </button>
       <h2>{this.state.title}</h2>
       <img src={this.state.book.cover_url} width="100" alt={this.state.book.title}/>
       <div className="isbn">ISBN {this.state.book.isbn} </div><div className="price">{this.state.book.price}</div>

@@ -1,5 +1,6 @@
 
 Welcome to BookStout!
+Find a good book for a good bier!
 
 Thank you for giving me an opportunity at BookShout!
 
